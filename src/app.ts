@@ -1,9 +1,9 @@
 import cors from 'cors'
 import express, { Application, Request, Response } from 'express'
 import cookieParser from 'cookie-parser'
-import globalErrorHandler from './app/middlewares/globalErrorhandler'
 import notFound from './app/middlewares/notFound'
 import router from './app/routes'
+import globalErrorHandler from './app/middlewares/globalErrorhandler'
 
 const app: Application = express()
 
