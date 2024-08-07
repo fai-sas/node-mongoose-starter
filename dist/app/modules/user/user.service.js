@@ -43,9 +43,10 @@ const signInUserIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function
         email: user.email,
         role: user.role,
     };
-    const token = (0, user_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
+    const accessToken = (0, user_utils_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expires_in);
+    const refreshToken = (0, user_utils_1.createToken)(jwtPayload, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expires_in);
     user.password = undefined;
-    return { user, token };
+    return { user, accessToken, refreshToken };
 });
 exports.UserServices = {
     signUpUserIntoDb,

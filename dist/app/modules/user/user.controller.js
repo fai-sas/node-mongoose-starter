@@ -17,6 +17,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const user_service_1 = require("./user.service");
+const config_1 = __importDefault(require("../../config"));
 const signUpUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_service_1.UserServices.signUpUserIntoDb(req.body);
     (0, sendResponse_1.default)(res, {
@@ -28,11 +29,21 @@ const signUpUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 }));
 const signInUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_service_1.UserServices.signInUserIntoDb(req.body);
+    const { refreshToken, accessToken } = result;
+    res.cookie('refreshToken', refreshToken, {
+        secure: config_1.default.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: 'none',
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+    });
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'User logged in successfully',
-        data: result,
+        data: {
+            accessToken,
+            refreshToken,
+        },
     });
 }));
 exports.UserControllers = {
