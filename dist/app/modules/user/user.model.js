@@ -42,6 +42,9 @@ const userSchema = new mongoose_1.Schema({
     address: {
         type: String,
     },
+    passwordChangedAt: {
+        type: Date,
+    },
 }, {
     timestamps: true,
 });
@@ -66,5 +69,9 @@ userSchema.statics.isPasswordMatched = function (plainPassword, hashedPassword) 
     return __awaiter(this, void 0, void 0, function* () {
         return yield bcrypt_1.default.compare(plainPassword, hashedPassword);
     });
+};
+userSchema.statics.isJWTIssuedBeforePasswordChanged = function (passwordChangedTimestamp, jwtIssuedTimestamp) {
+    const passwordChangedTime = new Date(passwordChangedTimestamp).getTime() / 1000;
+    return passwordChangedTime > jwtIssuedTimestamp;
 };
 exports.User = (0, mongoose_1.model)('User', userSchema);
