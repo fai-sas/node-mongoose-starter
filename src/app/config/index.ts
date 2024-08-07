@@ -12,7 +12,7 @@ export default {
   jwt_access_expires_in: process.env.JWT_ACCESS_EXPIRES_IN,
   jwt_refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN,
   reset_password_ui_link: process.env.RESET_PASSWORD_UI_LINK,
-  email_address: process.env.EMAIl_ADDRESS,
+  email_address: process.env.EMAIL_ADDRESS,
   email_password: process.env.EMAIL_PASSWORD,
   cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   cloudinary_api_key: process.env.CLOUDINARY_API_KEY,

@@ -8,6 +8,7 @@ export interface TUser {
   password: string
   role: 'user' | 'admin'
   address?: string
+  passwordChangedAt?: Date
 }
 
 export interface UserModel extends Model<TUser> {
@@ -16,9 +17,13 @@ export interface UserModel extends Model<TUser> {
 
   //instance methods for checking if passwords are matched
   isPasswordMatched(
-    plainPassword: string,
+    plainTextPassword: string,
     hashedPassword: string
   ): Promise<boolean>
+  isJWTIssuedBeforePasswordChanged(
+    passwordChangedTimestamp: Date,
+    jwtIssuedTimestamp: number
+  ): boolean
 }
 
 export type TUserRole = keyof typeof USER_ROLE
