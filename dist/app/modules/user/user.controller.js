@@ -78,8 +78,8 @@ const refreshToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     });
 }));
 const forgetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.body.id;
-    const result = yield user_service_1.UserServices.forgetPassword(userId);
+    const userEmail = req.body.email;
+    const result = yield user_service_1.UserServices.forgetPassword(userEmail);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

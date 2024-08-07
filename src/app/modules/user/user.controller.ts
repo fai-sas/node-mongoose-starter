@@ -62,8 +62,9 @@ const refreshToken = catchAsync(async (req, res) => {
 })
 
 const forgetPassword = catchAsync(async (req, res) => {
-  const userId = req.body.id
-  const result = await UserServices.forgetPassword(userId)
+  const userEmail = req.body.email
+
+  const result = await UserServices.forgetPassword(userEmail)
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

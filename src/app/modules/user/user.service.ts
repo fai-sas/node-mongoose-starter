@@ -9,7 +9,6 @@ import bcrypt from 'bcrypt'
 import { sendEmail } from '../../utils/sendEmail'
 
 const signUpUserIntoDb = async (payload: TUser) => {
-  // const existingUser = await User.findOne({ email: payload.email })
   const existingUser = await User.isUserExists(payload.email)
 
   if (existingUser) {
@@ -18,14 +17,12 @@ const signUpUserIntoDb = async (payload: TUser) => {
 
   const result = await User.create(payload)
 
-  const userObj = result?.toObject()
-  delete userObj?.password
-
-  return userObj
+  return result
 }
 
 const signInUserIntoDb = async (payload: Partial<TUser>) => {
   const user = await User.findOne({ email: payload.email }).select('+password')
+  // const user = await User.findOne({ email: payload.email })
 
   // check if user exists
   if (!user) {
@@ -69,8 +66,7 @@ const changePassword = async (
   payload: { oldPassword: string; newPassword: string }
 ) => {
   // checking if the user is exist
-  // const user = await User.findOne({ email: payload.email })
-  const user = await User.isUserExists(userData.email)
+  const user = await User.findOne({ email: userData.email }).select('+password')
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !')
@@ -78,7 +74,7 @@ const changePassword = async (
 
   //checking if the password is correct
 
-  if (!(await User.isPasswordMatched(payload.oldPassword, user?.password)))
+  if (!(await User.isPasswordMatched(payload?.oldPassword, user?.password)))
     throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched')
 
   //hash new password
@@ -94,7 +90,6 @@ const changePassword = async (
     },
     {
       password: newHashedPassword,
-      needsPasswordChange: false,
       passwordChangedAt: new Date(),
     }
   )

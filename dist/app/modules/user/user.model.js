@@ -26,10 +26,15 @@ const userSchema = new mongoose_1.Schema({
         required: [true, 'Email is required'],
         unique: true,
     },
+    // password: {
+    //   type: String,
+    //   required: [true, 'Password is required'],
+    //   select: false,
+    // },
     password: {
         type: String,
-        required: [true, 'Password is required'],
-        select: false,
+        required: true,
+        select: 0,
     },
     role: {
         type: String,
